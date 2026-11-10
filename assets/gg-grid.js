@@ -39,10 +39,28 @@
   /** Lower-cased, trimmed comparison key. */
   const normalize = (value) => String(value).trim().toLowerCase();
 
-  /** Returns a valid CSS colour for a swatch, or a neutral fallback. */
-  const swatchColor = (value) => {
-    const color = normalize(value).replace(/\s+/g, '');
-    return CSS.supports('color', color) ? color : '#c4c4c4';
+  /** Swatch colours used in the Figma popups, keyed by option value. */
+  const DESIGN_SWATCHES = {
+    black: '#000000',
+    white: '#ffffff',
+    blue: '#0d499f',
+    red: '#b20f36',
+    grey: '#afafb7',
+    gray: '#afafb7',
+  };
+
+  /**
+   * Colour shown in the swatch bar of a colour button. Priority:
+   *   1. the option value's native Shopify swatch colour (set in admin),
+   *   2. the Figma palette above,
+   *   3. the value itself when it is a valid CSS colour ("navy", "#123456"),
+   *   4. a neutral grey.
+   */
+  const swatchColor = (value, nativeSwatch) => {
+    if (nativeSwatch) return nativeSwatch;
+    const key = normalize(value).replace(/\s+/g, '');
+    if (DESIGN_SWATCHES[key]) return DESIGN_SWATCHES[key];
+    return CSS.supports('color', key) ? key : '#c4c4c4';
   };
 
   /** Small DOM helper: el('button', { class: 'x', type: 'button' }, 'Label'). */
@@ -50,7 +68,8 @@
     const node = document.createElement(tag);
     Object.entries(attrs).forEach(([key, value]) => {
       if (value === false || value == null) return;
-      if (key === 'style') Object.assign(node.style, value);
+      // setProperty() is required for CSS custom properties (--foo); Object.assign ignores them.
+      if (key === 'style') Object.entries(value).forEach(([prop, val]) => node.style.setProperty(prop, val));
       else node.setAttribute(key, value === true ? '' : value);
     });
     node.append(...children);
@@ -207,11 +226,11 @@
     }
 
     /** Colour option: two-column button group with a swatch bar per value. */
-    renderColorOption({ name, values, index }) {
+    renderColorOption({ name, values, swatches = [], index }) {
       const labelId = `gg-option-${index}-${Date.now()}`;
       const group = el('div', { class: 'gg-colors', role: 'radiogroup', 'aria-labelledby': labelId });
 
-      values.forEach((value) => {
+      values.forEach((value, position) => {
         const button = el(
           'button',
           {
@@ -219,7 +238,8 @@
             class: 'gg-colors__option',
             role: 'radio',
             'aria-checked': String(this.selected[index] === value),
-            style: { '--gg-swatch': swatchColor(value) },
+            'data-value': value,
+            style: { '--gg-swatch': swatchColor(value, swatches[position]) },
           },
           value
         );

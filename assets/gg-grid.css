@@ -150,6 +150,14 @@
   object-fit: cover;
 }
 
+/* Products without an image: keep the text column aligned. */
+.gg-popup__image[hidden] {
+  display: none;
+}
+.gg-popup__image[hidden] + .gg-popup__info {
+  grid-column: 1 / -1;
+}
+
 .gg-popup__info {
   padding-top: 13px;
 }
@@ -239,8 +247,9 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 6px;
-  border-right: 0.5px solid #000;
+  /* Figma: 5.8px swatch bar with its own 0.5px outline, coloured per value. */
+  width: 5.8px;
+  border: 0.5px solid #000;
   background: var(--gg-swatch);
 }
 .gg-colors__option[aria-checked='true'] {

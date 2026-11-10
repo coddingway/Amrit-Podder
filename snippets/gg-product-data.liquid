@@ -20,7 +20,17 @@
   "imageAlt": {{ image.alt | default: product.title | json }},
   "options": [
     {%- for option in product.options_with_values -%}
-      { "name": {{ option.name | json }}, "values": {{ option.values | json }} }
+      {
+        "name": {{ option.name | json }},
+        "values": {{ option.values | json }},
+        {%- comment -%} Native Shopify swatch colour per value (null when none is set). {%- endcomment -%}
+        "swatches": [
+          {%- for value in option.values -%}
+            {%- if value.swatch.color -%}{{ value.swatch.color | color_to_hex | json }}{%- else -%}null{%- endif -%}
+            {%- unless forloop.last %},{% endunless -%}
+          {%- endfor -%}
+        ]
+      }
       {%- unless forloop.last %},{% endunless -%}
     {%- endfor -%}
   ],

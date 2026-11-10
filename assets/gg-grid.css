@@ -137,11 +137,13 @@
   padding: 36px 20px 25px;
 }
 
+/* Fixed to the image height so the options always start at y186, as in Figma. */
 .gg-popup__summary {
   display: grid;
   grid-template-columns: 120px 1fr;
-  column-gap: 8px;
+  column-gap: 5px; /* text column at x145 */
   align-items: start;
+  height: 140px;
 }
 
 .gg-popup__image {
@@ -183,6 +185,12 @@
   font-weight: 300;
   line-height: 1.1;
   letter-spacing: -0.01em;
+  /* Real descriptions are longer than the design copy: keep the Figma 4-line block. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
 }
 
 .gg-popup__options {

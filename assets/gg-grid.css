@@ -76,8 +76,9 @@
 /* --------------------------------------------------------------------------
    Popup (native <dialog>) — 319×455 card in Figma
    -------------------------------------------------------------------------- */
+/* Figma: 311×447 card (frames 0:538 desktop / 0:524 mobile). */
 .gg-popup {
-  width: 319px;
+  width: 311px;
   max-width: calc(100vw - 32px);
   max-height: calc(100dvh - 32px);
   padding: 0;
@@ -106,8 +107,8 @@
 
 .gg-popup__close {
   position: absolute;
-  top: 13px;
-  right: 15px;
+  top: 15px;
+  right: 14px;
   z-index: 1;
   display: grid;
   place-items: center;
@@ -132,21 +133,21 @@
 .gg-popup__form {
   display: flex;
   flex-direction: column;
-  min-height: 455px;
-  padding: 37px 20px 25px;
+  min-height: 447px;
+  padding: 36px 20px 25px;
 }
 
 .gg-popup__summary {
   display: grid;
-  grid-template-columns: 123px 1fr;
+  grid-template-columns: 120px 1fr;
   column-gap: 8px;
   align-items: start;
 }
 
 .gg-popup__image {
-  width: 123px;
-  height: 142px;
-  margin-left: -3px;
+  width: 120px;
+  height: 140px;
+  margin-left: -3px; /* image sits at x17, controls at x20 */
   object-fit: cover;
 }
 
@@ -170,14 +171,14 @@
 }
 
 .gg-popup__price {
-  margin: 18px 0 0;
+  margin: 20px 0 0;
   font-family: 'Lustria', serif;
   font-size: 16px;
   line-height: 1.2;
 }
 
 .gg-popup__description {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.1;
@@ -187,7 +188,7 @@
 .gg-popup__options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 11.5px;
   margin-top: 10px;
 }
 
@@ -208,7 +209,7 @@
   --gg-btn-pad-left: 78px;
   --gg-btn-pad-right: 39px;
   width: 100%;
-  min-height: 46px;
+  min-height: 45px;
   margin-top: auto;
 }
 
@@ -404,6 +405,15 @@
 
   .gg-grid__item {
     aspect-ratio: 169 / 186.42;
+  }
+
+  /* Mobile popup (Figma 0:524): 12px description, slightly lower copy. */
+  .gg-popup__price {
+    margin-top: 22px;
+  }
+  .gg-popup__description {
+    margin-top: 13px;
+    font-size: 12px;
   }
 
   /* Figma places every mobile hotspot at the same spot. */

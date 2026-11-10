@@ -179,7 +179,7 @@
     display: flex;
     align-items: center;
     width: 24px;
-    height: 20px;
+    height: 19px;
     list-style: none;
     cursor: pointer;
   }
@@ -206,7 +206,6 @@
     gap: 16px;
     padding: 25px 16px;
     background: #f2f2f2;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 
   .gg-banner__menu-panel .gg-banner__choose {
@@ -248,7 +247,7 @@
   .gg-banner__text {
     max-width: 340px;
     height: auto;
-    margin: 9px auto 0;
+    margin: 24px auto 0;
     font-size: 16px;
     line-height: 1.3;
   }

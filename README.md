@@ -190,7 +190,7 @@ assets/
 1. **Event delegation** — one `click` listener on the section handles hotspots, close button and backdrop, regardless of block count.
 2. **`open(product)`** fills the popup from the embedded JSON and calls `dialog.showModal()`.
 3. **Options are rendered by name, in Figma order** (colour first):
-   - `Color` / `Colour` → **radio-group buttons** (`role="radiogroup"` / `role="radio"`, `aria-checked`) with a 5.8px swatch bar. A single black indicator **slides** to the selected value and the label colours cross-fade — matching the Figma prototype's Smart Animate (**300ms, ease-out**). Position is driven by CSS custom properties (`--gg-selected`, `--gg-count`), so it works for any number of values.
+   - `Color` / `Colour` → **radio-group buttons** (`role="radiogroup"` / `role="radio"`, `aria-checked`) with a 5.8px swatch bar. The active value is **filled black across the whole button, swatch bar included**; switching **slides** that fill to the new value while the labels cross-fade, and the very first pick fades in place — matching the Figma prototype's Smart Animate (**300ms, ease-out**). Position is driven by CSS custom properties (`--gg-selected`, `--gg-count`), so it works for any number of values.
    - Any other option (e.g. `Size`) → **custom dropdown** (`button` + `role="listbox"`), keyboard operable (↑ ↓ Enter Space Esc Tab).
    - Options with a single value are pre-selected.
 4. **`currentVariant()`** matches the selected values against `variant.options`; **`updateVariant()`** syncs price and sold-out state.

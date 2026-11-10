@@ -240,10 +240,17 @@
       });
       group.append(el('span', { class: 'gg-colors__indicator', 'aria-hidden': 'true' }));
 
-      /** Moves the indicator to the value at `position`. */
+      /**
+       * Moves the indicator to the value at `position`. On the first pick the
+       * position is applied before transitions are enabled, so the fill fades in
+       * in place instead of sliding from the first value.
+       */
       const moveIndicator = (position) => {
         group.style.setProperty('--gg-selected', String(position));
-        group.classList.add('has-selection');
+        if (!group.classList.contains('has-selection')) {
+          void group.offsetWidth; // commit the position before enabling transitions
+          group.classList.add('has-selection');
+        }
       };
       const preselected = values.indexOf(this.selected[index]);
       if (preselected > -1) moveIndicator(preselected);

@@ -234,17 +234,21 @@
   background: #fff;
 }
 
-/* Black "selected" fill that slides between values, starting after the swatch bar. */
+/* Black "selected" fill: covers the whole active button and slides between values. */
 .gg-colors__indicator {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(var(--gg-selected, 0) * 100% / var(--gg-count, 2) + var(--gg-swatch-width));
-  width: calc(100% / var(--gg-count, 2) - var(--gg-swatch-width));
+  left: calc(var(--gg-selected, 0) * 100% / var(--gg-count, 2));
+  width: calc(100% / var(--gg-count, 2));
   background: #000;
   opacity: 0;
   pointer-events: none;
   transition: left var(--gg-switch-motion), opacity var(--gg-switch-motion);
+}
+/* First pick: nothing to slide from, so the fill only fades in (Figma dissolve). */
+.gg-colors:not(.has-selection) .gg-colors__indicator {
+  transition: none;
 }
 .gg-colors.has-selection .gg-colors__indicator {
   opacity: 1;
@@ -272,12 +276,17 @@
   bottom: 0;
   left: 0;
   /* Figma: 5.8px swatch bar with its own 0.5px outline, coloured per value. */
-  width: 5.8px;
+  width: var(--gg-swatch-width);
   border: 0.5px solid #000;
   background: var(--gg-swatch);
+  transition: background-color var(--gg-switch-motion);
 }
+/* Active value: label turns white and its swatch bar fills with the button. */
 .gg-colors__option[aria-checked='true'] {
   color: #fff;
+}
+.gg-colors__option[aria-checked='true']::before {
+  background: #000;
 }
 .gg-colors__option:focus-visible {
   outline: 2px solid #000;
@@ -414,6 +423,7 @@
   .gg-select__icon svg,
   .gg-colors__indicator,
   .gg-colors__option,
+  .gg-colors__option::before,
   .gg-select__option {
     transition: none;
   }

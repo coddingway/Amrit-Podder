@@ -225,10 +225,28 @@
       this.dialog.showModal();
     }
 
-    /** Colour option: two-column button group with a swatch bar per value. */
+    /**
+     * Colour option: button group with a swatch bar per value.
+     * A single black indicator slides under the selected value (Figma prototype:
+     * Smart Animate, 300ms ease-out) — positioned with CSS vars, animated in CSS.
+     */
     renderColorOption({ name, values, swatches = [], index }) {
       const labelId = `gg-option-${index}-${Date.now()}`;
-      const group = el('div', { class: 'gg-colors', role: 'radiogroup', 'aria-labelledby': labelId });
+      const group = el('div', {
+        class: 'gg-colors',
+        role: 'radiogroup',
+        'aria-labelledby': labelId,
+        style: { '--gg-count': String(values.length) },
+      });
+      group.append(el('span', { class: 'gg-colors__indicator', 'aria-hidden': 'true' }));
+
+      /** Moves the indicator to the value at `position`. */
+      const moveIndicator = (position) => {
+        group.style.setProperty('--gg-selected', String(position));
+        group.classList.add('has-selection');
+      };
+      const preselected = values.indexOf(this.selected[index]);
+      if (preselected > -1) moveIndicator(preselected);
 
       values.forEach((value, position) => {
         const button = el(
@@ -248,6 +266,7 @@
           group.querySelectorAll('[role="radio"]').forEach((radio) => {
             radio.setAttribute('aria-checked', String(radio === button));
           });
+          moveIndicator(position);
           this.updateVariant();
         });
         group.append(button);
